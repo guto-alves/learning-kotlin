@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:fillViewport="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        tools:context=".MainActivity">
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="3dp"
+                android:gravity="center"
+                android:text="WINNING HISTORY "
+                android:textColor="#FF5722"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/playerXTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/win_counter"
+                android:textColor="#2D47D8"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/playerYTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/win_counter"
+                android:textColor="#2D47D8"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <TableLayout
+            android:id="@+id/tableLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+
+            <TableRow
+                android:id="@+id/tableRow1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <Button
+                    android:id="@+id/button1"
+                    style="@style/ButtonTheme"
+                    android:tag="1" />
+
+                <Button
+                    android:id="@+id/button2"
+                    style="@style/ButtonTheme"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:tag="2" />
+
+                <Button
+                    android:id="@+id/button3"
+                    style="@style/ButtonTheme"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:tag="3" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/tableRow2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="8dp">
+
+                <Button
+                    android:id="@+id/button4"
+                    style="@style/ButtonTheme"
+                    android:tag="4" />
+
+                <Button
+                    android:id="@+id/button5"
+                    style="@style/ButtonTheme"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:tag="5" />
+
+                <Button
+                    android:id="@+id/button6"
+                    style="@style/ButtonTheme"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:tag="6" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/tableRow3"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="8dp">
+
+                <Button
+                    android:id="@+id/button7"
+                    style="@style/ButtonTheme"
+                    android:tag="7" />
+
+                <Button
+                    android:id="@+id/button8"
+                    style="@style/ButtonTheme"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:tag="8" />
+
+                <Button
+                    android:id="@+id/button9"
+                    style="@style/ButtonTheme"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:tag="9" />
+            </TableRow>
+
+        </TableLayout>
+
+        <Button
+            android:id="@+id/playAgainButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:background="@color/colorPrimaryDark"
+            android:onClick="playAgain"
+            android:padding="16dp"
+            android:text="@string/play_again"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tableLayout" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>
