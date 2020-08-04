@@ -26,6 +26,7 @@ class FeedAdapter(context: Context, private val applications: ArrayList<FeedEntr
         }
 
         val feedEntry = applications[position]
+        holder.numberTextView.text = (position + 1).toString()
         holder.nameTextView.text = feedEntry.name
         holder.artistTextView.text = feedEntry.artist
         holder.summaryTextView.text = feedEntry.summary
@@ -35,6 +36,7 @@ class FeedAdapter(context: Context, private val applications: ArrayList<FeedEntr
 
     companion object {
         private class ViewHolder(view: View) {
+            val numberTextView: TextView = view.findViewById(R.id.numberTextView)
             val nameTextView: TextView = view.findViewById(R.id.nameTextView)
             val artistTextView: TextView = view.findViewById(R.id.artistTextView)
             val summaryTextView: TextView = view.findViewById(R.id.summaryTextView)
