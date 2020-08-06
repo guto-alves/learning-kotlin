@@ -1,48 +1,33 @@
 package com.example.top10downloader
 
-import android.content.Context
-import android.os.AsyncTask
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.ListView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import kotlinx.android.synthetic.main.activity_main.*
-import java.net.URL
 
 class MainActivity : AppCompatActivity() {
-    private var feedUrl = FREE_APPS_URL
-    private var feedLimit = 10
-    private var feedUrlCached = "INVALIDATED"
-
-    private var downloadTask: DownloadTask? = null
+    private lateinit var viewModel: FeedViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        if (savedInstanceState != null) {
-            with(savedInstanceState) {
-                feedUrl = getString(STATE_URL, FREE_APPS_URL)
-                feedLimit = getInt(STATE_LIMIT)
-            }
-        }
+        viewModel = ViewModelProvider(this).get(FeedViewModel::class.java)
+        viewModel.downloadUrl()
 
-        downloadUrl(feedUrl.format(feedLimit))
-    }
+        val adapter = FeedAdapter(this)
+        feedEntriesListView.adapter = adapter
 
-    private fun downloadUrl(url: String) {
-        if (url != feedUrlCached) {
-            feedUrlCached = url
-            downloadTask = DownloadTask(this, appsListView)
-            downloadTask?.execute(url)
-        }
+        viewModel.feedEntries.observe(this, Observer<List<FeedEntry>>(adapter::setFeedEntries))
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.feeds_menu, menu)
 
-        if (feedLimit == 25) {
+        if (viewModel.feedLimit == 25) {
             menu?.findItem(R.id.top25)?.isChecked = true
         }
 
@@ -51,60 +36,19 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.free_apps -> feedUrl = FREE_APPS_URL
-            R.id.paid_apps -> feedUrl = PAID_APPS_URL
-            R.id.songs -> feedUrl = SONGS_URL
+            R.id.free_apps -> viewModel.feedUrl = FeedEntry.FREE_APPS_URL
+            R.id.paid_apps -> viewModel.feedUrl = FeedEntry.PAID_APPS_URL
+            R.id.songs -> viewModel.feedUrl = FeedEntry.SONGS_URL
             R.id.top10, R.id.top25 -> {
                 if (!item.isChecked) {
                     item.isChecked = !item.isChecked
-                    feedLimit = 35 - feedLimit
+                    viewModel.switchLimit()
                 }
             }
             else -> return super.onOptionsItemSelected(item)
         }
 
-        downloadUrl(feedUrl.format(feedLimit))
+        viewModel.downloadUrl()
         return true
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        outState.run {
-            putString(STATE_URL, feedUrl)
-            putInt(STATE_LIMIT, feedLimit)
-        }
-        super.onSaveInstanceState(outState)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        downloadTask?.cancel(true)
-    }
-
-    companion object {
-        private const val FREE_APPS_URL =
-            "http://ax.itunes.apple.com/WebObjects/MZStoreServices.woa/ws/RSS/topfreeapplications/limit=%d/xml"
-        private const val PAID_APPS_URL =
-            "http://ax.itunes.apple.com/WebObjects/MZStoreServices.woa/ws/RSS/toppaidapplications/limit=%d/xml"
-        private const val SONGS_URL =
-            "http://ax.itunes.apple.com/WebObjects/MZStoreServices.woa/ws/RSS/topsongs/limit=%d/xml"
-
-        private const val STATE_URL = "feedUrl"
-        private const val STATE_LIMIT = "feedLimit"
-
-        private class DownloadTask(val context: Context, val listView: ListView) :
-            AsyncTask<String, Void, String>() {
-
-            override fun doInBackground(vararg urls: String?): String {
-                return downloadXml(urls[0].toString())
-            }
-
-            override fun onPostExecute(result: String) {
-                val parse = ParseApplications()
-                val adapter = FeedAdapter(context, parse.parse(result))
-                listView.adapter = adapter
-            }
-
-            private fun downloadXml(urlPath: String) = URL(urlPath).readText()
-        }
     }
 }

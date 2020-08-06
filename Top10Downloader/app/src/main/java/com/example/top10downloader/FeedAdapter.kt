@@ -7,8 +7,20 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
 
-class FeedAdapter(context: Context, private val applications: ArrayList<FeedEntry>) :
-    ArrayAdapter<FeedEntry>(context, -1, applications) {
+class FeedAdapter(
+    context: Context,
+    private var feedEntries: List<FeedEntry> = ArrayList()
+) :
+    ArrayAdapter<FeedEntry>(context, -1) {
+
+    fun setFeedEntries(feedEntries: List<FeedEntry>) {
+        this.feedEntries = feedEntries
+        notifyDataSetChanged()
+    }
+
+    override fun getCount(): Int {
+        return feedEntries.size
+    }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val view: View
@@ -25,8 +37,8 @@ class FeedAdapter(context: Context, private val applications: ArrayList<FeedEntr
             holder = view.tag as ViewHolder
         }
 
-        val feedEntry = applications[position]
-        holder.numberTextView.text = (position + 1).toString()
+        val feedEntry = feedEntries[position]
+        holder.numberTextView.text = "${position + 1}°"
         holder.nameTextView.text = feedEntry.name
         holder.artistTextView.text = feedEntry.artist
         holder.summaryTextView.text = feedEntry.summary
