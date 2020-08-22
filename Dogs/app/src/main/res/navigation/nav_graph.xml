@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/dogsFragment">
+
+    <fragment
+        android:id="@+id/dogsFragment"
+        android:name="com.gutotech.dogs.view.DogsFragment"
+        android:label="fragment_dogs"
+        tools:layout="@layout/fragment_dogs">
+        <action
+            android:id="@+id/action_dogsFragment_to_dogDetailsFragment"
+            app:destination="@id/dogDetailsFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
+    </fragment>
+    <fragment
+        android:id="@+id/dogDetailsFragment"
+        android:name="com.gutotech.dogs.view.DogDetailsFragment"
+        android:label="dog_details_fragment"
+        tools:layout="@layout/dog_details_fragment">
+        <action
+            android:id="@+id/action_dogDetailsFragment_to_dogsFragment"
+            app:destination="@id/dogsFragment" />
+        <argument
+            android:name="dog"
+            app:argType="com.gutotech.dogs.model.Dog" />
+    </fragment>
+</navigation>
