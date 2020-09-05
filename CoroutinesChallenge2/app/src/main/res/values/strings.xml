@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">CoroutinesChallenge2</string>
+    <string name="download_user_data">Download user data</string>
+    <string name="click_here">Click Here</string>
+</resources>
